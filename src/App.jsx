@@ -1,10 +1,11 @@
 import '@splidejs/react-splide/css';
 import './App.css';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import {Navigate, RouterProvider, createBrowserRouter } from 'react-router-dom';
 import Home from './components/Home/Home';
 import About from './components/About/About';
 import Layout from './components/Layout/Layout';
 import Services from './components/Services/Services';
+import Works from './components/Works/Works';
 import Contact from './components/Contact/Contact';
 import GetStarted from './components/GetStarted/GetStarted';
 import Company from './components/Company/Company';
@@ -15,9 +16,9 @@ import Register from './components/Register/Register';
 import Login from './components/Login/Login';
 import { useEffect, useState } from 'react';
 import  {jwtDecode}  from 'jwt-decode';
-import Projects from './components/Projects/Projects';
-import ProjectDetails from './components/ProjectDetails/ProjectDetails';
-
+import Dashboard from './dashboard/Dashboard';
+import AddRecent from './dashboard/AddRecent/AddRecent';
+import Cookies from 'js-cookie';
 
 
 
@@ -27,29 +28,19 @@ import ProjectDetails from './components/ProjectDetails/ProjectDetails';
 
 
 function App() {
-
-const [userData,setUserData]=useState(null);
-
-useEffect(() =>{
-   if (localStorage.getItem('token')){
-    saveUser()
-   }
-
-},[]);
-function saveUser(){
-    let encodeToken=localStorage.getItem('token');
-    if (encodeToken) {
-      let decoded= jwtDecode(encodeToken)
-      console.log(decoded);
-      setUserData(decoded);
-    }
-}
-
+  console.log(Cookies.get())
+            const encodeToken = Cookies.get('accessToken');
+            console.log(encodeToken)
+  // if(!Cookies.get('refreshToken')){
+  //   localStorage.removeItem('userData')
+  // }
+  let storedData= JSON.parse(localStorage.getItem('userData'));
+  console.log(storedData?.role)
 
   let routers = createBrowserRouter([
     { path: 'getstarted', element: <GetStarted /> },
     {
-      path: '', element: < Layout userData={userData} setUserData={setUserData}/>, children: [
+      path: '', element: < Layout />, children: [
         {path: '', element: <About />, children: [
             { path: 'team', element: <Team /> },
             { path: 'company', element: <Company /> },
@@ -57,17 +48,23 @@ function saveUser(){
           ]
         },
         { path: 'services', element: <Services /> },
-        { path: 'works', element: <Projects /> },
-        {path:'ProjectDetails/:id', element:<ProjectDetails/>},
+        { path: 'works', element: <Works /> },
         { index: true, element: <Home /> },
         { path: 'contact', element: <Contact /> },
-        { path: 'register', element: <Register /> },
-        { path: 'login', element: <Login saveUser={saveUser} /> },
-  
+        { path: 'login', element: storedData ? <Navigate to="/" /> : <Login /> },
+        { path: 'register', element: storedData ? <Navigate to="/" /> : <Register /> },
+        
   
         { path: '*', element: <NotFound /> },
       ]
-    }
+    },
+    {
+      path: 'dashboard',
+      element: storedData?.role === "Admin" ? <Dashboard /> :<Navigate to="/" />,
+      children: [
+        { path: 'addRecent', element: <AddRecent /> }
+      ]
+    } ,
   ])
   return <RouterProvider router={routers}></RouterProvider>
 

@@ -4,7 +4,10 @@ import { useForm } from 'react-hook-form';
 import axios from "axios";
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-function Login({ saveUser }) {
+import Cookies from 'js-cookie';
+import  {jwtDecode}  from 'jwt-decode';
+
+function Login() {
     const loc = useLocation();
     const nav = useNavigate();
     console.log(loc.state);
@@ -22,10 +25,8 @@ function Login({ saveUser }) {
     async function onSubmit(values) {
         setLoading(true);
         setError(null)
-        // Make a POST request to your login endpoint
-
-  
-        let { data } = await axios.post('https://iti-final-be.onrender.com/auth/login', values).catch((err) => {
+        axios.defaults.withCredentials = true;
+        let { data } = await axios.post('http://localhost:5000/auth/login', values).catch((err) => {
 
             setError(err.response.data.msgError)
             setLoading(false)
@@ -34,8 +35,13 @@ function Login({ saveUser }) {
         })
         console.log(data)
         if (data.success) {
-            localStorage.setItem("token", data.accessToken)
-            saveUser()
+            console.log(Cookies.get())
+            const encodeToken = Cookies.get('accessToken');
+            console.log(encodeToken)
+            if (encodeToken) {
+                let decoded = jwtDecode(encodeToken)
+                localStorage.setItem('userData', JSON.stringify(decoded))
+            }
             if (loc.state) {
                 nav(loc.state);
                 setLoading(false)
@@ -43,6 +49,7 @@ function Login({ saveUser }) {
             }
             else
                 nav('/');
+                window.location.reload();
             setLoading(false)
         }
 
@@ -52,9 +59,9 @@ function Login({ saveUser }) {
         <div className={`${styles.register_bg} w-100 vh-100 position-relative`}>
             <div className={`w-100 vh-100 position-absolute ${styles.layer_bg}`}></div>
 
-            <MDBContainer fluid className='container d-flex align-items-center justify-content-center pt-md-5'>
+            <MDBContainer fluid className='container  d-flex align-items-center justify-content-center pt-md-5'>
                 <div className={`${styles.card_bg} p-3 rounded-5 mt-5`}>
-                    <MDBCardBody style={{ width: "400px" }} className='px-1'>
+                    <MDBCardBody className={`${styles.login_w}`}>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <h2 className="text-uppercase fs-5 text-center mb-3">welcome back</h2>
                             {error ? <p className=" alert alert-danger ">{error}</p> : ''}

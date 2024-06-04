@@ -12,22 +12,23 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@reduxjs/toolkit": "^2.2.3",
     "@splidejs/react-splide": "^0.7.12",
     "@splidejs/splide": "^4.1.4",
     "axios": "^1.6.7",
     "bootstrap": "^5.2.3",
     "jquery": "^3.7.0",
+    "js-cookie": "^3.0.5",
     "jwt-decode": "^4.0.0",
     "mdb-react-ui-kit": "^7.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.50.1",
-    "react-lazy-load": "^4.0.1",
-    "react-lazy-load-image-component": "^1.6.0",
+    "react-redux": "^9.1.1",
     "react-router-dom": "^6.11.2",
     "react-slick": "^0.29.0",
     "slick-carousel": "^1.8.1",
-    "swiper": "^11.0.6"
+    "swiper": "^11.1.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
@@ -38,5 +39,8 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.3.4",
     "vite": "^4.3.2"
-  }
+  },
+  "tags": [
+    "swiper"
+  ]
 }

@@ -6,7 +6,7 @@ import hager from "../../images/teams/hager.jpg";
 import styles from '../Team/teams.module.css';
 export default function Team() {
   return <>
-  <div className=" my-5 pb-5">
+  <div className=" container my-5 pb-5">
   <div className="row">
     <div className={styles.teamWrapper}>
     <div className={styles.container}>
@@ -16,8 +16,8 @@ export default function Team() {
       <p align="center">Delight To Serve You</p>
       </div>
     </div>
-      <div className="row pt-5 mt-5 pt-md-0 mt-md-2">
-        <div className="col-md-4 py-3 my-2">
+      <div className="row pt-5 mt-5 pt-lg-0 mt-lg-2">
+        <div className="col-lg-4 py-3 my-2">
         <div className={styles.colmun}>
           <div className={styles.teamcol}>
             <div className={styles.teamcolinner}>
@@ -38,7 +38,7 @@ export default function Team() {
           </div>
         </div>
         </div>
-        <div className="col-md-4 py-5 my-5">
+        <div className="col-lg-4 py-5 my-5">
         <div className={styles.colmun}>
           <div className={styles.teamcol}>
             <div className={styles.teamcolinner}>
@@ -57,7 +57,7 @@ export default function Team() {
           </div>
         </div>
         </div>
-        <div className="col-md-4 py-3 my-2">
+        <div className="col-lg-4 py-3 my-2">
         <div className={styles.colmun}>
           <div className={styles.teamcol}>
             <div className={styles.teamcolinner}>

@@ -3,15 +3,19 @@ import { Outlet, useNavigate } from 'react-router-dom'
 import Footer from '../Footer/Footer'
 import Navbar from '../Navbar/Navbar'
 import GetStarted from '../GetStarted/GetStarted'
-export default function Layout({userData,setUserData}) {
+import Cookies from 'js-cookie';
+export default function Layout() {
 
   const [loading, setLoading] = useState(true);
   let nav=useNavigate()
-    function logOut(){
-      localStorage.removeItem('token')
-      setUserData(null)
-      nav('/login')
-    }
+  function logOut(){
+    localStorage.removeItem('userData')
+    Cookies.remove('accessToken');
+    Cookies.remove('refreshToken');
+    nav('/login')
+    window.location.reload();
+
+  }
 
   useEffect(() => {
     const simulateLoading = async () => {
@@ -31,7 +35,7 @@ export default function Layout({userData,setUserData}) {
         <div className="container "><Outlet></Outlet></div>
         <Footer></Footer>
         </div>} */}
-        <Navbar userData={userData} logOut={logOut}></Navbar>
+        <Navbar  logOut={logOut}></Navbar>
         <div className=""><Outlet></Outlet></div>
         <Footer></Footer>
         

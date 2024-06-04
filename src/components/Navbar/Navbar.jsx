@@ -6,8 +6,9 @@ import logo12 from '../../images/logo2.png'
 import { useEffect, useState } from "react";
 import $ from "jquery";
 
-export default function Navbar({ userData,logOut }) {
-
+export default function Navbar({ logOut }) {
+  let storedData= JSON.parse(localStorage.getItem('userData'));
+  console.log(storedData);
   const [showButton, setShowButton] = useState(false);
 
   useEffect(() => {
@@ -49,13 +50,13 @@ export default function Navbar({ userData,logOut }) {
                 <Link onClick={scrollToTop} className="nav-link active" aria-current="page" to="/">Home</Link>
               </li>
               <li className="nav-item dropdown">
-                <Link onClick={scrollToTop} class="nav-link dropdown-toggle" to="about" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <Link onClick={scrollToTop} className="nav-link dropdown-toggle" to="about" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   About
                 </Link>
-                <ul className="dropdown-menu position-absolute">
-                  <li><Link onClick={scrollToTop} class="dropdown-item" to="company">About Company</Link></li>
-                  <li><Link onClick={scrollToTop} class="dropdown-item" to="team">Our Team</Link></li>
-                  <li><Link onClick={scrollToTop} class="dropdown-item" to="site">About Site</Link></li>
+                <ul className="dropdown-menu position-absolute mt-2 ">
+                  <li><Link onClick={scrollToTop} className="dropdown-item" to="company">About Company</Link></li>
+                  <li><Link onClick={scrollToTop} className="dropdown-item" to="team">Our Team</Link></li>
+                  <li><Link onClick={scrollToTop} className="dropdown-item" to="site">About Site</Link></li>
 
                 </ul>
               </li>
@@ -75,15 +76,22 @@ export default function Navbar({ userData,logOut }) {
             </ul>
             <ul className="navbar-nav man  mb-lg-0 ">
 
-              {!userData && <li className="nav-item ">
-                <Link  className="nav-link active" aria-current="page" to="login">Login</Link>
+              {!storedData && <li className="nav-item ">
+                <Link className="nav-link active" aria-current="page" to="login">Login</Link>
               </li>}
-              {!userData && <li className="nav-item  ">
-                <Link  className="nav-link active" aria-current="page" to="register">Register</Link>
+              {!storedData && <li className="nav-item  ">
+                <Link className="nav-link active" aria-current="page" to="register">Register</Link>
               </li>}
-              {userData && <li className="nav-item ">
-                <span  className="nav-link active" aria-current="page" onClick={logOut}>LogOut</span>
+              {(storedData?.role=="Admin") && <div className="nav-item  ">
+                <Link className="nav-link active" aria-current="page" to="dashboard"><i className="fa-solid fa-gears fs-5"></i></Link>
+              </div>}
+              {storedData && <li className="nav-item d-flex ">
+                <span className="nav-link active" aria-current="page" onClick={logOut}><i className="fa-solid fa-right-from-bracket fs-5"></i></span>
+                <div className="profile-pic ms-3">
+                  <img src={storedData?.userImage} alt="Profile Picture" />
+                </div>
               </li>}
+
 
 
             </ul>
@@ -106,13 +114,13 @@ export default function Navbar({ userData,logOut }) {
                   <Link onClick={scrollToTop} className="nav-link active" aria-current="page" to="/">Home</Link>
                 </li>
                 <li className="nav-item dropdown">
-                  <Link onClick={scrollToTop} class="nav-link dropdown-toggle" to="about" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <Link onClick={scrollToTop} className="nav-link dropdown-toggle" to="about" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     About
                   </Link>
                   <ul className="dropdown-menu position-absolute">
-                    <li><Link onClick={scrollToTop} class="dropdown-item" to="company">About Company</Link></li>
-                    <li><Link onClick={scrollToTop} class="dropdown-item" to="team">Our Team</Link></li>
-                    <li><Link onClick={scrollToTop} class="dropdown-item" to="site">About Site</Link></li>
+                    <li><Link onClick={scrollToTop} className="dropdown-item" to="company">About Company</Link></li>
+                    <li><Link onClick={scrollToTop} className="dropdown-item" to="team">Our Team</Link></li>
+                    <li><Link onClick={scrollToTop} className="dropdown-item" to="site">About Site</Link></li>
                   </ul>
                 </li>
                 <li className="nav-item">
@@ -127,17 +135,23 @@ export default function Navbar({ userData,logOut }) {
 
 
               </ul>
-              <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
+              <ul className="row navbar-nav  flex-grow-1 pe-3 d-flex flex-row ">
 
-                {!userData && <li className="nav-item ">
+                {!storedData && <li className="nav-item col-3">
                   <Link onClick={scrollToTop} className="nav-link active" aria-current="page" to="login">Login</Link>
                 </li>}
-                {!userData && <li className="nav-item  ">
+                {!storedData && <li className="nav-item col-3 ">
                   <Link onClick={scrollToTop} className="nav-link active" aria-current="page" to="register">Register</Link>
                 </li>}
-                {userData && <li className="nav-item ">
-                <span  className="nav-link active" aria-current="page" onClick={logOut}>LogOut</span>
+                {(storedData?.role == "Admin") && <li className="nav-item  col-3">
+                  <Link className="nav-link active" aria-current="page" to="dashboard"><i className="fa-solid fa-gears fs-5"></i></Link>
                 </li>}
+                {storedData && <li className="nav-item col-3">
+                  <span className="nav-link active" aria-current="page" onClick={logOut}><i className="fa-solid fa-right-from-bracket fs-5"></i></span>
+                </li>}
+                {storedData && <li className="profile-pis ">
+                    <img src={storedData?.userImage} alt="Profile Picture" />
+                  </li>}
 
 
               </ul>
